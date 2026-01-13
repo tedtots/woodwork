@@ -1,0 +1,162 @@
+.workmen-modal {
+  max-width: 600px;
+}
+
+.workmen-content {
+  padding: 1.5rem;
+}
+
+.workmen-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.workmen-header h3 {
+  margin: 0;
+  color: #333;
+}
+
+.add-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.add-button:hover {
+  background: #5568d3;
+}
+
+.workman-form {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.workman-form h4 {
+  margin: 0 0 1rem 0;
+  color: #333;
+}
+
+.workman-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.workman-form .form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.workman-form .form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.workman-form .form-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.workman-form .save-button {
+  padding: 0.5rem 1rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.workman-form .cancel-button {
+  padding: 0.5rem 1rem;
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.workmen-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.workman-item {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.workman-info h4 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+
+.workman-info p {
+  margin: 0.25rem 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.workman-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-button,
+.delete-button {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-button {
+  color: #667eea;
+}
+
+.edit-button:hover {
+  background: #e7e9fd;
+}
+
+.delete-button {
+  color: #dc3545;
+}
+
+.delete-button:hover {
+  background: #fee;
+}
+
+.no-items {
+  text-align: center;
+  color: #999;
+  padding: 2rem;
+  font-style: italic;
+}

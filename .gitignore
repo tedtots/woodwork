@@ -1,0 +1,10 @@
+node_modules/
+client/node_modules/
+server/node_modules/
+server/database.sqlite
+.env
+.DS_Store
+client/build/
+dist/
+*.log
+*.zip

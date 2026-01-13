@@ -1,0 +1,21 @@
+{
+  "name": "carpentry-task-tracker",
+  "version": "1.0.0",
+  "description": "Task tracking application for carpentry production workshop",
+  "main": "server/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm start",
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install",
+    "build": "cd client && npm run build",
+    "start": "cd server && NODE_ENV=production node index.js",
+    "build:all": "cd client && npm run build && cd .."
+  },
+  "keywords": ["carpentry", "kanban", "task-tracker"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
