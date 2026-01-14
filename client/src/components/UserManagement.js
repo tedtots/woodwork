@@ -79,7 +79,7 @@ function UserManagement({ onClose }) {
       }
 
       if (editingUser) {
-        const response = await axios.put(`${API_BASE_URL}/api/users/${editingUser.id}`, dataToSend);
+        await axios.put(`${API_BASE_URL}/api/users/${editingUser.id}`, dataToSend);
         setSuccess('Ο χρήστης ενημερώθηκε επιτυχώς!');
       } else {
         // For new users, password is required
@@ -88,7 +88,7 @@ function UserManagement({ onClose }) {
           setFormLoading(false);
           return;
         }
-        const response = await axios.post(`${API_BASE_URL}/api/auth/register`, dataToSend);
+        await axios.post(`${API_BASE_URL}/api/auth/register`, dataToSend);
         setSuccess('Ο χρήστης δημιουργήθηκε επιτυχώς!');
       }
       setFormData({

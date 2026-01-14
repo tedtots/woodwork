@@ -36,6 +36,7 @@ function OrderModal({ order, stages, workmen, onClose, onSave, onDelete, userRol
       });
       fetchNotes();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [order]);
 
   const fetchNotes = async () => {
