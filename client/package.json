@@ -15,7 +15,7 @@
     "react-icons": "^4.12.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "NODE_OPTIONS='--no-deprecation' react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -40,5 +40,18 @@
   "devDependencies": {
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17"
+  },
+  "overrides": {
+    "rimraf": "^4.0.0",
+    "glob": "^9.0.0",
+    "npmlog": "^7.0.1",
+    "are-we-there-yet": "^5.0.0",
+    "@npmcli/move-file": "^2.0.1",
+    "gauge": "^5.0.0",
+    "whatwg-encoding": "^2.0.0",
+    "domexception": "^4.0.0",
+    "@humanwhocodes/config-array": "^0.15.0",
+    "@humanwhocodes/object-schema": "^2.0.3",
+    "svgo": "^2.8.0"
   }
 }

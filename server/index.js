@@ -787,9 +787,16 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  if (process.env.NODE_ENV === 'production') {
-    console.log('Serving production build');
-  }
-});
+// Only listen if not in a serverless environment (e.g., Vercel)
+// Vercel and other serverless platforms handle the server differently
+if (process.env.VERCEL !== '1' && !process.env.AWS_LAMBDA_FUNCTION_NAME) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+    if (process.env.NODE_ENV === 'production') {
+      console.log('Serving production build');
+    }
+  });
+}
+
+// Export app for serverless environments (Vercel, AWS Lambda, etc.)
+module.exports = app;
