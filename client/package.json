@@ -49,9 +49,6 @@
     "@npmcli/move-file": "^2.0.1",
     "gauge": "^5.0.0",
     "whatwg-encoding": "^2.0.0",
-    "domexception": "^4.0.0",
-    "@humanwhocodes/config-array": "^0.15.0",
-    "@humanwhocodes/object-schema": "^2.0.3",
     "svgo": "^2.8.0"
   }
 }
