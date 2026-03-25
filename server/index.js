@@ -14,7 +14,13 @@ app.use(cors());
 app.use(express.json());
 
 // Initialize database
-const dbPath = path.join(__dirname, 'database.sqlite');
+// In production use /app/data so the Railway volume doesn't overwrite server files
+const dbDir = process.env.NODE_ENV === 'production'
+  ? '/app/data'
+  : __dirname;
+const dbPath = path.join(dbDir, 'database.sqlite');
+const fs = require('fs');
+if (!fs.existsSync(dbDir)) fs.mkdirSync(dbDir, { recursive: true });
 const db = new sqlite3.Database(dbPath);
 
 // Initialize database tables
