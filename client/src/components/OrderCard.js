@@ -2,7 +2,7 @@ import React from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { format, differenceInDays } from 'date-fns';
-import { FaExclamationTriangle, FaUser, FaCalendarAlt } from 'react-icons/fa';
+import { FaUser, FaCalendarAlt } from 'react-icons/fa';
 import './OrderCard.css';
 
 function OrderCard({ order, onClick, isDraggable = true }) {
@@ -42,14 +42,9 @@ function OrderCard({ order, onClick, isDraggable = true }) {
       style={style}
       {...attributes}
       {...(isDraggable ? listeners : {})}
-      className={`order-card ${isDragging ? 'dragging' : ''} ${order.alert ? 'alert' : ''} ${!isDraggable ? 'no-drag' : ''}`}
+      className={`order-card ${isDragging ? 'dragging' : ''} ${!isDraggable ? 'no-drag' : ''}`}
       onClick={onClick}
     >
-      {order.alert && (
-        <div className="alert-badge">
-          <FaExclamationTriangle /> 5+ Ημέρες Χωρίς Πρόοδο
-        </div>
-      )}
       <div className="order-header">
         <h4 className="order-client">{order.client_name}</h4>
         <div

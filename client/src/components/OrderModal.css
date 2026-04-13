@@ -151,6 +151,15 @@
   cursor: not-allowed;
 }
 
+.archive-button {
+  background: #6c757d;
+  color: white;
+}
+
+.archive-button:hover {
+  background: #5a6268;
+}
+
 .delete-button {
   background: #dc3545;
   color: white;

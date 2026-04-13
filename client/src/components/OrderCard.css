@@ -22,35 +22,6 @@
   opacity: 0.5;
 }
 
-.order-card.alert {
-  border-left-color: #dc3545;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  50% {
-    box-shadow: 0 2px 4px rgba(220, 53, 69, 0.5);
-  }
-}
-
-.alert-badge {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background: #dc3545;
-  color: white;
-  padding: 0.25rem 0.5rem;
-  border-radius: 12px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  z-index: 10;
-}
 
 .order-header {
   display: flex;

@@ -6,6 +6,7 @@ import OrderModal from './OrderModal';
 import WorkmenManagement from './WorkmenManagement';
 import UserManagement from './UserManagement';
 import StagesManagement from './StagesManagement';
+import ArchivedOrders from './ArchivedOrders';
 import axios from 'axios';
 import API_BASE_URL from '../config/api';
 import './Dashboard.css';
@@ -21,6 +22,7 @@ function Dashboard() {
   const [showWorkmenModal, setShowWorkmenModal] = useState(false);
   const [showUserModal, setShowUserModal] = useState(false);
   const [showStagesModal, setShowStagesModal] = useState(false);
+  const [showArchivedModal, setShowArchivedModal] = useState(false);
   const [viewMode, setViewMode] = useState('kanban'); // 'kanban' or 'table'
 
   useEffect(() => {
@@ -87,6 +89,19 @@ function Dashboard() {
     }
   };
 
+  const handleOrderArchive = async (orderId) => {
+    if (!window.confirm('Archive this order? You can reinstate it later from the Archived view.')) return;
+    try {
+      await axios.put(`${API_BASE_URL}/api/orders/${orderId}/archive`);
+      fetchData();
+      setShowOrderModal(false);
+      setSelectedOrder(null);
+    } catch (error) {
+      console.error('Error archiving order:', error);
+      alert('Failed to archive order');
+    }
+  };
+
   const handleOrderDelete = async (orderId) => {
     if (!window.confirm('Είστε σίγουροι ότι θέλετε να διαγράψετε αυτή την παραγγελία;')) {
       return;
@@ -150,6 +165,12 @@ function Dashboard() {
                   Διαχείριση Χρηστών
                 </button>
                 <button
+                  className="header-button"
+                  onClick={() => setShowArchivedModal(true)}
+                >
+                  Archived
+                </button>
+                <button
                   className="header-button primary"
                   onClick={() => {
                     setSelectedOrder(null);
@@ -203,6 +224,7 @@ function Dashboard() {
           }}
           onSave={selectedOrder ? handleOrderUpdate : handleOrderCreate}
           onDelete={selectedOrder ? handleOrderDelete : null}
+          onArchive={selectedOrder ? handleOrderArchive : null}
           userRole={user.role}
         />
       )}
@@ -224,6 +246,13 @@ function Dashboard() {
         <StagesManagement
           onClose={() => setShowStagesModal(false)}
           onUpdate={fetchData}
+        />
+      )}
+
+      {showArchivedModal && (
+        <ArchivedOrders
+          onClose={() => setShowArchivedModal(false)}
+          onReinstated={fetchData}
         />
       )}
     </div>

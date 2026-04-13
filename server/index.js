@@ -105,9 +105,12 @@ db.serialize(() => {
 
   // Create default admin user (password: admin123)
   const defaultPassword = bcrypt.hashSync('admin123', 10);
-  db.run(`INSERT OR IGNORE INTO users (username, email, password, role, name) VALUES 
+  db.run(`INSERT OR IGNORE INTO users (username, email, password, role, name) VALUES
     ('admin', 'admin@workshop.com', ?, 'admin', 'Administrator')
   `, [defaultPassword]);
+
+  // Migration: add archived column if it doesn't exist
+  db.run(`ALTER TABLE orders ADD COLUMN archived INTEGER DEFAULT 0`, () => {});
 });
 
 // Middleware to verify JWT token
@@ -566,6 +569,9 @@ app.get('/api/orders', authenticateToken, (req, res) => {
   const params = [];
   const conditions = [];
 
+  // Exclude archived orders
+  conditions.push('o.archived = 0');
+
   // Apply role-based filtering
   if (req.user.role === 'client') {
     // Client users: see all orders in stages they have permission to view
@@ -599,21 +605,7 @@ app.get('/api/orders', authenticateToken, (req, res) => {
       return res.status(500).json({ error: 'Database error' });
     }
 
-    // Add 5-day inactivity alerts
-    const now = new Date();
-    const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
-    const INACTIVITY_THRESHOLD_DAYS = 5;
-    
-    const ordersWithAlerts = orders.map(order => {
-      const lastUpdated = new Date(order.last_updated);
-      const daysSinceUpdate = (now - lastUpdated) / MILLISECONDS_PER_DAY;
-      return {
-        ...order,
-        alert: daysSinceUpdate >= INACTIVITY_THRESHOLD_DAYS
-      };
-    });
-
-    res.json(ordersWithAlerts);
+    res.json(orders);
   });
 });
 
@@ -635,14 +627,6 @@ app.get('/api/orders/:id', authenticateToken, (req, res) => {
     if (!order) {
       return res.status(404).json({ error: 'Order not found' });
     }
-
-    // Add 5-day inactivity alert
-    const now = new Date();
-    const lastUpdated = new Date(order.last_updated);
-    const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
-    const INACTIVITY_THRESHOLD_DAYS = 5;
-    const daysSinceUpdate = (now - lastUpdated) / MILLISECONDS_PER_DAY;
-    order.alert = daysSinceUpdate >= INACTIVITY_THRESHOLD_DAYS;
 
     res.json(order);
   });
@@ -724,6 +708,41 @@ app.delete('/api/orders/:id', authenticateToken, requireAdmin, (req, res) => {
       }
       res.json({ message: 'Order deleted' });
     });
+  });
+});
+
+// Archived orders
+app.get('/api/orders/archived/list', authenticateToken, requireAdmin, (req, res) => {
+  db.all(`
+    SELECT o.*, s.title as stage_title, w.name as workman_name, COUNT(n.id) as notes_count
+    FROM orders o
+    LEFT JOIN stages s ON o.stage_id = s.id
+    LEFT JOIN workmen w ON o.workman_id = w.id
+    LEFT JOIN notes n ON o.id = n.order_id
+    WHERE o.archived = 1
+    GROUP BY o.id
+    ORDER BY o.last_updated DESC
+  `, [], (err, orders) => {
+    if (err) return res.status(500).json({ error: 'Database error' });
+    res.json(orders);
+  });
+});
+
+app.put('/api/orders/:id/archive', authenticateToken, requireAdmin, (req, res) => {
+  const { id } = req.params;
+  db.run('UPDATE orders SET archived = 1, last_updated = CURRENT_TIMESTAMP WHERE id = ?', [id], function(err) {
+    if (err) return res.status(500).json({ error: 'Database error' });
+    if (this.changes === 0) return res.status(404).json({ error: 'Order not found' });
+    res.json({ message: 'Order archived' });
+  });
+});
+
+app.put('/api/orders/:id/unarchive', authenticateToken, requireAdmin, (req, res) => {
+  const { id } = req.params;
+  db.run('UPDATE orders SET archived = 0, last_updated = CURRENT_TIMESTAMP WHERE id = ?', [id], function(err) {
+    if (err) return res.status(500).json({ error: 'Database error' });
+    if (this.changes === 0) return res.status(404).json({ error: 'Order not found' });
+    res.json({ message: 'Order reinstated' });
   });
 });
 

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { format } from 'date-fns';
-import { FaTimes, FaTrash, FaExclamationTriangle } from 'react-icons/fa';
+import { FaTimes, FaTrash, FaArchive } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import API_BASE_URL from '../config/api';
 import './OrderModal.css';
 
-function OrderModal({ order, stages, workmen, onClose, onSave, onDelete, userRole }) {
+function OrderModal({ order, stages, workmen, onClose, onSave, onDelete, onArchive, userRole }) {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
     client_name: '',
@@ -210,17 +210,20 @@ function OrderModal({ order, stages, workmen, onClose, onSave, onDelete, userRol
             </div>
           )}
 
-          {order && order.alert && (
-            <div className="alert-warning">
-              <FaExclamationTriangle /> Χωρίς πρόοδο για 5+ ημέρες
-            </div>
-          )}
-
           {!isReadOnly && (
             <div className="form-actions">
               <button type="submit" className="save-button" disabled={loading}>
                 {loading ? 'Αποθήκευση...' : order ? 'Ενημέρωση Παραγγελίας' : 'Δημιουργία Παραγγελίας'}
               </button>
+              {order && onArchive && (
+                <button
+                  type="button"
+                  className="archive-button"
+                  onClick={() => onArchive(order.id)}
+                >
+                  <FaArchive /> Archive
+                </button>
+              )}
               {order && onDelete && (
                 <button
                   type="button"
