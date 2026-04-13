@@ -5,7 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "cd server && npm run dev",
+    "server": "cd server && PORT=5000 npm run dev",
     "client": "cd client && npm start",
     "install-all": "npm install --no-fund --no-audit --loglevel=error && cd server && npm install --no-fund --no-audit --loglevel=error && cd ../client && npm install --no-fund --no-audit --loglevel=error",
     "build": "cd client && npm run build",
