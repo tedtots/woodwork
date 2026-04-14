@@ -23,6 +23,7 @@ function Dashboard() {
   const [showUserModal, setShowUserModal] = useState(false);
   const [showStagesModal, setShowStagesModal] = useState(false);
   const [showArchivedModal, setShowArchivedModal] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [viewMode, setViewMode] = useState('kanban'); // 'kanban' or 'table'
 
   useEffect(() => {
@@ -126,56 +127,54 @@ function Dashboard() {
       <header className="dashboard-header">
         <div className="header-content">
           <h1>Εργαστήριο Ξυλουργικής</h1>
-          <div className="header-actions">
+
+          {/* Hamburger toggle — mobile only */}
+          <button
+            className="hamburger-button"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label="Toggle menu"
+          >
+            <span className={`hamburger-icon ${menuOpen ? 'open' : ''}`}>
+              <span /><span /><span />
+            </span>
+          </button>
+
+          {/* Actions — always visible on desktop, toggled on mobile */}
+          <div className={`header-actions ${menuOpen ? 'menu-open' : ''}`}>
             <span className="user-info">
               {user.name} ({user.role === 'admin' ? 'Διαχειριστής' : user.role === 'client' ? 'Πελάτης' : 'Χρήστης'})
             </span>
             <div className="view-toggle">
               <button
                 className={`view-button ${viewMode === 'kanban' ? 'active' : ''}`}
-                onClick={() => setViewMode('kanban')}
+                onClick={() => { setViewMode('kanban'); setMenuOpen(false); }}
               >
                 Kanban
               </button>
               <button
                 className={`view-button ${viewMode === 'table' ? 'active' : ''}`}
-                onClick={() => setViewMode('table')}
+                onClick={() => { setViewMode('table'); setMenuOpen(false); }}
               >
                 Πίνακας
               </button>
             </div>
             {user.role === 'admin' && (
               <>
-                <button
-                  className="header-button"
-                  onClick={() => setShowStagesModal(true)}
-                >
+                <button className="header-button" onClick={() => { setShowStagesModal(true); setMenuOpen(false); }}>
                   Διαχείριση Φάσεων
                 </button>
-                <button
-                  className="header-button"
-                  onClick={() => setShowWorkmenModal(true)}
-                >
+                <button className="header-button" onClick={() => { setShowWorkmenModal(true); setMenuOpen(false); }}>
                   Διαχείριση Εργατών
                 </button>
-                <button
-                  className="header-button"
-                  onClick={() => setShowUserModal(true)}
-                >
+                <button className="header-button" onClick={() => { setShowUserModal(true); setMenuOpen(false); }}>
                   Διαχείριση Χρηστών
                 </button>
-                <button
-                  className="header-button"
-                  onClick={() => setShowArchivedModal(true)}
-                >
+                <button className="header-button" onClick={() => { setShowArchivedModal(true); setMenuOpen(false); }}>
                   Archived
                 </button>
                 <button
                   className="header-button primary"
-                  onClick={() => {
-                    setSelectedOrder(null);
-                    setShowOrderModal(true);
-                  }}
+                  onClick={() => { setSelectedOrder(null); setShowOrderModal(true); setMenuOpen(false); }}
                 >
                   + Νέα Παραγγελία
                 </button>

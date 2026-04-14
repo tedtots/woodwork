@@ -97,14 +97,94 @@
   padding: 1.5rem;
 }
 
+/* Hamburger button — hidden on desktop */
+.hamburger-button {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin-left: auto;
+}
+
+.hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 24px;
+}
+
+.hamburger-icon span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: #333;
+  border-radius: 2px;
+  transition: all 0.25s ease;
+  transform-origin: center;
+}
+
+/* Animate to X when open */
+.hamburger-icon.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger-icon.open span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger-icon.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
 @media (max-width: 768px) {
   .header-content {
-    flex-direction: column;
-    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0.75rem 1rem;
+  }
+
+  .header-content h1 {
+    font-size: 1.2rem;
+    flex: 1;
+  }
+
+  /* Show hamburger, hide actions by default */
+  .hamburger-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .header-actions {
-    flex-wrap: wrap;
-    justify-content: center;
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    padding: 0.75rem 0 0.25rem;
+    border-top: 1px solid #eee;
+    margin-top: 0.5rem;
+  }
+
+  .header-actions.menu-open {
+    display: flex;
+  }
+
+  .header-actions .user-info {
+    text-align: center;
+    padding: 0.25rem 0;
+  }
+
+  .header-actions .view-toggle {
+    width: 100%;
+  }
+
+  .header-actions .view-toggle .view-button {
+    flex: 1;
+  }
+
+  .header-actions .header-button {
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem;
   }
 }
